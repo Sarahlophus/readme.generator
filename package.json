@@ -1,0 +1,22 @@
+{
+  "name": "readme.generator",
+  "version": "1.0.0",
+  "description": "Northwestern University Fullstack Coding Bootcamp homework 9: A Readme generator using node.js and inquirer npm package",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sarahlophus/readme.generator.git"
+  },
+  "author": "Sarah Ann Williams",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Sarahlophus/readme.generator/issues"
+  },
+  "homepage": "https://github.com/Sarahlophus/readme.generator#readme",
+  "dependencies": {
+    "inquirer": "^8.2.0"
+  }
+}
