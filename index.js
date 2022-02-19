@@ -10,6 +10,12 @@ inquirer
       message: "Enter your project title",
     },
     {
+      name: "license",
+      type: "list",
+      message: "What license type do you have?",
+      choices: ["MIT", "APACHE 2.0", "GPL 3.0", "BSD 3", "None"],
+    },
+    {
       name: "projDesc",
       type: "input",
       message: "Enter a 2-3 sentence summary about this project.",
@@ -53,19 +59,70 @@ inquirer
     {
       name: "imageAlt",
       type: "input",
-      message: "in 1 sentence, describe your image (for use as alt text)",
+      message: "In 1 sentence, describe your image (for use as alt text)",
+    },
+    {
+      name: "contributeOpt",
+      type: "confirm",
+      message: "Does your project have contribution guidelines?",
+    },
+    {
+      name: "contribution",
+      type: "input",
+      message: "Enter guidelines for contributing to this project",
+      when: (answers) => answers.contributeOpt === true,
+    },
+    {
+      name: "liveLink",
+      type: "input",
+      message: "Enter the link to your live page. If none exists, write 'none' or 'N/A'",
+    },
+    {
+      name: "liveLink",
+      type: "input",
+      message: "Enter the link to your live page. If none exists, write 'none' or 'N/A'",
     },
   ])
+  // promise
   .then((answers) => {
-    // if (answers.installOpt === false) {
-    //   answers.installHowTo.message = "No installation required";
-    // }
-    const theReadme = generateReadme(answers);
-    fs.writeFile("myREADME.md", theReadme, (err) => (err ? console.error(err) : console.log("success!")));
+    // conditional for installation instructions
+    if (answers.installOpt) {
+      console.log("you included install instructions");
+    } else {
+      answers.installHowTo = "No installation needed";
+    }
+    // conditional for license type and tag
+    let licenseText = "";
+    if (answers.license !== "None") {
+      licenseText = `![License Type ${answers.license}](https://img.shields.io/badge/License-${answers.license}-9cf.svg)
+
+Licensed under [${answers.license}](LICENSE)`;
+    }
+    // conditional for contribution instructions
+    if (answers.contributeOpt) {
+      console.log("you included contribution instructions");
+    } else {
+      answers.contribution = "No contributions";
+    }
+    // write newREADME file with user's answers
+    const theReadme = generateReadme(answers, licenseText);
+    fs.writeFile("newREADME.md", theReadme, (err) => (err ? console.error(err) : console.log("success!")));
   });
 
-const generateReadme = ({ projTitle, projDesc, feature1, feature2, feature3, installHowTo, projUse, image, imageAlt }) => {
+// generate newREADME)
+const generateReadme = ({ projTitle, projDesc, feature1, feature2, feature3, installHowTo, projUse, contribution, image, imageAlt, liveLink }, licenseText) => {
   return `# ${projTitle}
+
+${licenseText}
+
+## Table of Contents
+
+- [Project Description](#project-description)
+- [Installation](#installation-steps)
+- [Usage](#usage-instructions)
+- [Contribution](#contribution)
+- [Links](#links)
+- [Contact](#contact)
 
 ## Project Description
 
@@ -74,13 +131,6 @@ ${projDesc}
 - Includes: ${feature1}
 - Includes: ${feature2}
 - Includes: ${feature3}
-    
-## Table of Contents
-
-- Installation
-- Usage
-- Credits
-- License
     
 ## Installation Steps
 
@@ -92,18 +142,19 @@ ${projUse}
     
 ![${imageAlt}](${image})
     
-## Credits
-
-- collaborators
-- tutorials
-- 3rd party assets
+## Contribution
+${contribution}
 
 ## Links
 
-- Live page: 
-- Github repo: 
-    
-## License
+- Live page: ${liveLink}
+- Repository: 
 
-Licensed under the [MIT License](LICENSE)`;
+## Contact
+
+If you have questions about this project, contact me at the information below:
+
+- Email Address:
+- Github Profile: 
+`;
 };
