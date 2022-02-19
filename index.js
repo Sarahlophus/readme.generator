@@ -13,7 +13,7 @@ inquirer
       name: "license",
       type: "list",
       message: "What license type do you have?",
-      choices: ["MIT", "APACHE 2.0", "GPL 3.0", "BSD 3", "None"],
+      choices: ["MIT", "APACHE", "GPL", "BSD", "None"],
     },
     {
       name: "projDesc",
@@ -76,11 +76,36 @@ inquirer
       name: "liveLink",
       type: "input",
       message: "Enter the link to your live page. If none exists, write 'none' or 'N/A'",
+      default: "https://randomcatgifs.com/",
+      validate: function (input) {
+        const valid = input.startsWith("https://");
+        return valid || "please enter a valid website that includes https://";
+      },
     },
     {
-      name: "liveLink",
+      name: "repoLink",
       type: "input",
-      message: "Enter the link to your live page. If none exists, write 'none' or 'N/A'",
+      message: "Enter the link to your repository. If none exists, write 'none' or 'N/A'",
+      default: "https://randomcatgifs.com/",
+      validate: function (input) {
+        const valid = input.startsWith("https://");
+        return valid || "please enter a valid website that includes https://";
+      },
+    },
+    {
+      name: "email",
+      type: "input",
+      message: "Enter your email address, so people can contact you",
+    },
+    {
+      name: "github",
+      type: "input",
+      message: "Enter your github profile so folks can stalk your work",
+      default: "https://randomcatgifs.com/",
+      validate: function (input) {
+        const valid = input.startsWith("https://");
+        return valid || "please enter a valid website that includes https://";
+      },
     },
   ])
   // promise
@@ -110,7 +135,7 @@ Licensed under [${answers.license}](LICENSE)`;
   });
 
 // generate newREADME)
-const generateReadme = ({ projTitle, projDesc, feature1, feature2, feature3, installHowTo, projUse, contribution, image, imageAlt, liveLink }, licenseText) => {
+const generateReadme = ({ projTitle, projDesc, feature1, feature2, feature3, installHowTo, projUse, contribution, image, imageAlt, liveLink, repoLink, email, github }, licenseText) => {
   return `# ${projTitle}
 
 ${licenseText}
@@ -148,13 +173,13 @@ ${contribution}
 ## Links
 
 - Live page: ${liveLink}
-- Repository: 
+- Repository: ${repoLink}
 
 ## Contact
 
 If you have questions about this project, contact me at the information below:
 
-- Email Address:
-- Github Profile: 
+- Email Address: ${email}
+- Github Profile: ${github}
 `;
 };
