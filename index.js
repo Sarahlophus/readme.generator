@@ -73,6 +73,17 @@ inquirer
       when: (answers) => answers.contributeOpt === true,
     },
     {
+      name: "testingOpt",
+      type: "confirm",
+      message: "Would you like to include a test example for your project?",
+    },
+    {
+      name: "testing",
+      type: "input",
+      message: "Enter the code for your example test below",
+      when: (answers) => answers.testingOpt === true,
+    },
+    {
       name: "liveLink",
       type: "input",
       message: "Enter the link to your live page. If none exists, write 'none' or 'N/A'",
@@ -129,13 +140,19 @@ Licensed under [${answers.license}](LICENSE)`;
     } else {
       answers.contribution = "No contributions";
     }
+    // conditional for testing code
+    if (answers.testingOpt) {
+      console.log("you included testing instructions");
+    } else {
+      answers.testing = "No testing available";
+    }
     // write newREADME file with user's answers
     const theReadme = generateReadme(answers, licenseText);
     fs.writeFile("newREADME.md", theReadme, (err) => (err ? console.error(err) : console.log("success!")));
   });
 
 // generate newREADME)
-const generateReadme = ({ projTitle, projDesc, feature1, feature2, feature3, installHowTo, projUse, contribution, image, imageAlt, liveLink, repoLink, email, github }, licenseText) => {
+const generateReadme = ({ projTitle, projDesc, feature1, feature2, feature3, installHowTo, projUse, image, imageAlt, contribution, testing, liveLink, repoLink, email, github }, licenseText) => {
   return `# ${projTitle}
 
 ${licenseText}
@@ -167,8 +184,14 @@ ${projUse}
     
 ![${imageAlt}](${image})
     
-## Contribution
+## How to Contribute 
+
 ${contribution}
+
+## Testing Code
+To test this project, enter code: 
+
+<code>${testing}</code>
 
 ## Links
 
