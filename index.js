@@ -88,10 +88,6 @@ inquirer
       type: "input",
       message: "Enter the link to your live page. If none exists, write 'none' or 'N/A'",
       default: "https://randomcatgifs.com/",
-      validate: function (input) {
-        const valid = input.startsWith("https://");
-        return valid || "please enter a valid website that includes https://";
-      },
     },
     {
       name: "repoLink",
@@ -113,10 +109,6 @@ inquirer
       type: "input",
       message: "Enter your github profile so folks can stalk your work",
       default: "https://randomcatgifs.com/",
-      validate: function (input) {
-        const valid = input.startsWith("https://");
-        return valid || "please enter a valid website that includes https://";
-      },
     },
   ])
   // promise
@@ -162,7 +154,8 @@ ${licenseText}
 - [Project Description](#project-description)
 - [Installation](#installation-steps)
 - [Usage](#usage-instructions)
-- [Contribution](#contribution)
+- [How To Contribute](#how-to-contribute)
+- [Testing](#testing)
 - [Links](#links)
 - [Contact](#contact)
 
@@ -188,8 +181,9 @@ ${projUse}
 
 ${contribution}
 
-## Testing Code
-To test this project, enter code: 
+## Testing
+
+To test this project, use code: 
 
 <code>${testing}</code>
 
